@@ -34,12 +34,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btEscuchar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbIPLocal = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbEnviar = new System.Windows.Forms.TextBox();
             this.btEnviar = new System.Windows.Forms.Button();
+            this.cbIPLocal = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -70,9 +70,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbIPLocal);
             this.groupBox1.Controls.Add(this.btEscuchar);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.tbIPLocal);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.btConectar);
             this.groupBox1.Controls.Add(this.label1);
@@ -103,13 +103,6 @@
             this.label3.Size = new System.Drawing.Size(50, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "IP Propia";
-            // 
-            // tbIPLocal
-            // 
-            this.tbIPLocal.Location = new System.Drawing.Point(98, 27);
-            this.tbIPLocal.Name = "tbIPLocal";
-            this.tbIPLocal.Size = new System.Drawing.Size(100, 20);
-            this.tbIPLocal.TabIndex = 1;
             // 
             // label2
             // 
@@ -158,6 +151,14 @@
             this.btEnviar.UseVisualStyleBackColor = true;
             this.btEnviar.Click += new System.EventHandler(this.btEnviar_Click);
             // 
+            // cbIPLocal
+            // 
+            this.cbIPLocal.FormattingEnabled = true;
+            this.cbIPLocal.Location = new System.Drawing.Point(98, 19);
+            this.cbIPLocal.Name = "cbIPLocal";
+            this.cbIPLocal.Size = new System.Drawing.Size(100, 21);
+            this.cbIPLocal.TabIndex = 8;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -186,10 +187,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbIPLocal;
         private System.Windows.Forms.Button btEscuchar;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btEnviar;
         private System.Windows.Forms.TextBox tbEnviar;
+        private System.Windows.Forms.ComboBox cbIPLocal;
     }
 }

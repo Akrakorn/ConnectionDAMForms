@@ -23,16 +23,17 @@ namespace ConnectionDAMForms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            /*
-            var host = Dns.GetHostEntry(Dns.GetHostName());
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    tbIPLocal.Text = ip.ToString();
+                    cbIPLocal.Items.Add(ip.ToString()); 
                 }
             }
-            */
+            
             socket.msgReceived += Socket_msgReceived;
         }
 
@@ -55,7 +56,7 @@ namespace ConnectionDAMForms
 
         private void btEscuchar_Click(object sender, EventArgs e)
         {        
-            socket.connectSocketListener(tbIPLocal.Text);
+            socket.connectSocketListener(cbIPLocal.Text);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
