@@ -76,12 +76,6 @@
     <Compile Include="ClErrors.cs" />
     <Compile Include="ClPort.cs" />
     <Compile Include="ClSocket.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
