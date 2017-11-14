@@ -226,6 +226,7 @@ namespace ConnectionDAMForms
                         {
                             data = Encoding.Default.GetString(xBuffer, 0, xBuffer.Length);
                             msgReceived(this, EventArgs.Empty);
+                            xBuffer = new byte[MAX_BUFFER];
                         }
                     }
                 }               
