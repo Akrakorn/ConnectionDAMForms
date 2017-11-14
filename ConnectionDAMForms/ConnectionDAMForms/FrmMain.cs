@@ -57,7 +57,7 @@ namespace ConnectionDAMForms
 
         private void btEscuchar_Click(object sender, EventArgs e)
         {
-            
+
 
             socket.connectSocketListener(tbIPLocal.Text);
         }
