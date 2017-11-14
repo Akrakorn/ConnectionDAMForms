@@ -36,7 +36,7 @@ namespace ConnectionDAMForms
             */
             tbIPLocal.Text = "192.168.3.30";
 
-            socket.connectSocketListener(IPAddress.Parse(tbIPLocal.Text),5030);
+            socket.connectSocketListener(tbIPLocal.Text);
         }
 
         private void btConectar_Click(object sender, EventArgs e)
