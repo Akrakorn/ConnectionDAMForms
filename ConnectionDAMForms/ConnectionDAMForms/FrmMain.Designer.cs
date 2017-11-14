@@ -45,7 +45,7 @@
             this.btConectar.Location = new System.Drawing.Point(123, 105);
             this.btConectar.Name = "btConectar";
             this.btConectar.Size = new System.Drawing.Size(75, 23);
-            this.btConectar.TabIndex = 0;
+            this.btConectar.TabIndex = 5;
             this.btConectar.Text = "Conectar";
             this.btConectar.UseVisualStyleBackColor = true;
             this.btConectar.Click += new System.EventHandler(this.btConectar_Click);
@@ -55,7 +55,7 @@
             this.tbDerecha.Location = new System.Drawing.Point(98, 79);
             this.tbDerecha.Name = "tbDerecha";
             this.tbDerecha.Size = new System.Drawing.Size(100, 20);
-            this.tbDerecha.TabIndex = 1;
+            this.tbDerecha.TabIndex = 3;
             // 
             // tbIzquierda
             // 
@@ -95,7 +95,7 @@
             this.tbIPLocal.Location = new System.Drawing.Point(98, 27);
             this.tbIPLocal.Name = "tbIPLocal";
             this.tbIPLocal.Size = new System.Drawing.Size(100, 20);
-            this.tbIPLocal.TabIndex = 5;
+            this.tbIPLocal.TabIndex = 1;
             // 
             // label2
             // 
@@ -120,7 +120,7 @@
             this.btEscuchar.Location = new System.Drawing.Point(10, 105);
             this.btEscuchar.Name = "btEscuchar";
             this.btEscuchar.Size = new System.Drawing.Size(75, 23);
-            this.btEscuchar.TabIndex = 0;
+            this.btEscuchar.TabIndex = 4;
             this.btEscuchar.Text = "Escuchar";
             this.btEscuchar.UseVisualStyleBackColor = true;
             this.btEscuchar.Click += new System.EventHandler(this.btEscuchar_Click);
@@ -129,10 +129,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(230, 164);
+            this.ClientSize = new System.Drawing.Size(236, 164);
             this.Controls.Add(this.groupBox1);
             this.Name = "FrmMain";
             this.Text = "FrmMain";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
