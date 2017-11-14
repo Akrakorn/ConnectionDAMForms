@@ -23,18 +23,22 @@ namespace ConnectionDAMForms
         private void FrmMain_Load(object sender, EventArgs e)
         {
             ClSocket socket = new ClSocket();
+            ClPort ports = new ClPort();
+            
             /*
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    //return ip.ToString();
+                    tbIPLocal.Text = ip.ToString();
                 }
             }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
-
-            //socket.connectSocketListener();*/
+            */
+            tbIPLocal.Text = "192.168.3.30";
+            
+            
+            socket.connectSocketListener(IPAddress.Parse(tbIPLocal.Text),5030);
         }
 
         private void btConectar_Click(object sender, EventArgs e)
