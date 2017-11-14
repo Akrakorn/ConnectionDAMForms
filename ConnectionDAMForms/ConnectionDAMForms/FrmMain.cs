@@ -20,10 +20,7 @@ namespace ConnectionDAMForms
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
-        {
-            ClSocket socket = new ClSocket();
-
-            
+        {            
             /*
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
@@ -34,14 +31,19 @@ namespace ConnectionDAMForms
                 }
             }
             */
-            tbIPLocal.Text = "192.168.3.30";
-
-            socket.connectSocketListener(tbIPLocal.Text);
+            
         }
 
         private void btConectar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btEscuchar_Click(object sender, EventArgs e)
+        {
+            ClSocket socket = new ClSocket();
+
+            socket.connectSocketListener(tbIPLocal.Text);
         }
     }
 }

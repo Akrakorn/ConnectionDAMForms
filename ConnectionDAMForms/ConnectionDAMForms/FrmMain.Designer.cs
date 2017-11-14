@@ -36,6 +36,7 @@
             this.tbIPLocal = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btEscuchar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,6 +66,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btEscuchar);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.tbIPLocal);
             this.groupBox1.Controls.Add(this.label2);
@@ -90,7 +92,6 @@
             // 
             // tbIPLocal
             // 
-            this.tbIPLocal.Enabled = false;
             this.tbIPLocal.Location = new System.Drawing.Point(98, 27);
             this.tbIPLocal.Name = "tbIPLocal";
             this.tbIPLocal.Size = new System.Drawing.Size(100, 20);
@@ -113,6 +114,16 @@
             this.label1.Size = new System.Drawing.Size(85, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Vecino izquierda";
+            // 
+            // btEscuchar
+            // 
+            this.btEscuchar.Location = new System.Drawing.Point(10, 105);
+            this.btEscuchar.Name = "btEscuchar";
+            this.btEscuchar.Size = new System.Drawing.Size(75, 23);
+            this.btEscuchar.TabIndex = 0;
+            this.btEscuchar.Text = "Escuchar";
+            this.btEscuchar.UseVisualStyleBackColor = true;
+            this.btEscuchar.Click += new System.EventHandler(this.btEscuchar_Click);
             // 
             // FrmMain
             // 
@@ -139,5 +150,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbIPLocal;
+        private System.Windows.Forms.Button btEscuchar;
     }
 }
