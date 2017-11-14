@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConnectionDam
+namespace ConnectionDAMForms
 {
     public class ClPort
     {
