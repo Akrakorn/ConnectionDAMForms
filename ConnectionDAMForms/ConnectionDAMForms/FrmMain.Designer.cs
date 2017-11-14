@@ -32,12 +32,16 @@
             this.tbDerecha = new System.Windows.Forms.TextBox();
             this.tbIzquierda = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btEscuchar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbIPLocal = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btEscuchar = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbEnviar = new System.Windows.Forms.TextBox();
+            this.btEnviar = new System.Windows.Forms.Button();
+            this.cbIPLocal = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btConectar
@@ -66,9 +70,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbIPLocal);
             this.groupBox1.Controls.Add(this.btEscuchar);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.tbIPLocal);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.btConectar);
             this.groupBox1.Controls.Add(this.label1);
@@ -81,6 +85,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "IPs";
             // 
+            // btEscuchar
+            // 
+            this.btEscuchar.Location = new System.Drawing.Point(10, 105);
+            this.btEscuchar.Name = "btEscuchar";
+            this.btEscuchar.Size = new System.Drawing.Size(75, 23);
+            this.btEscuchar.TabIndex = 4;
+            this.btEscuchar.Text = "Escuchar";
+            this.btEscuchar.UseVisualStyleBackColor = true;
+            this.btEscuchar.Click += new System.EventHandler(this.btEscuchar_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -89,13 +103,6 @@
             this.label3.Size = new System.Drawing.Size(50, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "IP Propia";
-            // 
-            // tbIPLocal
-            // 
-            this.tbIPLocal.Location = new System.Drawing.Point(98, 27);
-            this.tbIPLocal.Name = "tbIPLocal";
-            this.tbIPLocal.Size = new System.Drawing.Size(100, 20);
-            this.tbIPLocal.TabIndex = 1;
             // 
             // label2
             // 
@@ -115,21 +122,49 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Vecino izquierda";
             // 
-            // btEscuchar
+            // groupBox2
             // 
-            this.btEscuchar.Location = new System.Drawing.Point(10, 105);
-            this.btEscuchar.Name = "btEscuchar";
-            this.btEscuchar.Size = new System.Drawing.Size(75, 23);
-            this.btEscuchar.TabIndex = 4;
-            this.btEscuchar.Text = "Escuchar";
-            this.btEscuchar.UseVisualStyleBackColor = true;
-            this.btEscuchar.Click += new System.EventHandler(this.btEscuchar_Click);
+            this.groupBox2.Controls.Add(this.btEnviar);
+            this.groupBox2.Controls.Add(this.tbEnviar);
+            this.groupBox2.Location = new System.Drawing.Point(225, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 140);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Texto a enviar";
+            // 
+            // tbEnviar
+            // 
+            this.tbEnviar.Location = new System.Drawing.Point(6, 27);
+            this.tbEnviar.Multiline = true;
+            this.tbEnviar.Name = "tbEnviar";
+            this.tbEnviar.Size = new System.Drawing.Size(188, 72);
+            this.tbEnviar.TabIndex = 7;
+            // 
+            // btEnviar
+            // 
+            this.btEnviar.Location = new System.Drawing.Point(119, 105);
+            this.btEnviar.Name = "btEnviar";
+            this.btEnviar.Size = new System.Drawing.Size(75, 23);
+            this.btEnviar.TabIndex = 7;
+            this.btEnviar.Text = "Enviar";
+            this.btEnviar.UseVisualStyleBackColor = true;
+            this.btEnviar.Click += new System.EventHandler(this.btEnviar_Click);
+            // 
+            // cbIPLocal
+            // 
+            this.cbIPLocal.FormattingEnabled = true;
+            this.cbIPLocal.Location = new System.Drawing.Point(98, 19);
+            this.cbIPLocal.Name = "cbIPLocal";
+            this.cbIPLocal.Size = new System.Drawing.Size(100, 21);
+            this.cbIPLocal.TabIndex = 8;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(236, 164);
+            this.ClientSize = new System.Drawing.Size(437, 164);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "FrmMain";
             this.Text = "FrmMain";
@@ -137,6 +172,8 @@
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -150,7 +187,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbIPLocal;
         private System.Windows.Forms.Button btEscuchar;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btEnviar;
+        private System.Windows.Forms.TextBox tbEnviar;
+        private System.Windows.Forms.ComboBox cbIPLocal;
     }
 }

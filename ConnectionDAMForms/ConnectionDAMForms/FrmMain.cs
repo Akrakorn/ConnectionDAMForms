@@ -23,16 +23,17 @@ namespace ConnectionDAMForms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            /*
-            var host = Dns.GetHostEntry(Dns.GetHostName());
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    tbIPLocal.Text = ip.ToString();
+                    cbIPLocal.Items.Add(ip.ToString()); 
                 }
             }
-            */
+            
             socket.msgReceived += Socket_msgReceived;
         }
 
@@ -46,25 +47,27 @@ namespace ConnectionDAMForms
             if (socket.connectSocketLeft(tbIzquierda.Text))
             {
                 MessageBox.Show("Left PC has been connected succesfully.");
-                socket.sendDataLeft("test left: " + Environment.GetEnvironmentVariable("USERNAME"));
             }
             if (socket.connectSocketRight(tbDerecha.Text))
             {
                 MessageBox.Show("Right PC has been connected succesfully.");
-                socket.sendDataRight("test right: " + Environment.GetEnvironmentVariable("USERNAME"));
             }
         }
 
         private void btEscuchar_Click(object sender, EventArgs e)
-        {
-            
-
-            socket.connectSocketListener(tbIPLocal.Text);
+        {        
+            socket.connectSocketListener(cbIPLocal.Text);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             socket.disconnectSocketListener();
+        }
+
+        private void btEnviar_Click(object sender, EventArgs e)
+        {
+            socket.sendDataLeft(tbEnviar.Text);
+            socket.sendDataRight(tbEnviar.Text);
         }
     }
 }
