@@ -51,7 +51,7 @@ namespace ConnectionDAMForms
             if (socket.connectSocketRight(tbDerecha.Text))
             {
                 MessageBox.Show("Right PC has been connected succesfully.");
-                socket.sendDataLeft("test right: " + Environment.GetEnvironmentVariable("USERNAME"));
+                socket.sendDataRight("test right: " + Environment.GetEnvironmentVariable("USERNAME"));
             }
         }
 
