@@ -22,7 +22,7 @@ namespace ConnectionDAMForms
         private void FrmMain_Load(object sender, EventArgs e)
         {
             ClSocket socket = new ClSocket();
-            ClPort ports = new ClPort();
+
             
             /*
             var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -35,8 +35,7 @@ namespace ConnectionDAMForms
             }
             */
             tbIPLocal.Text = "192.168.3.30";
-            
-            
+
             socket.connectSocketListener(IPAddress.Parse(tbIPLocal.Text),5030);
         }
 
