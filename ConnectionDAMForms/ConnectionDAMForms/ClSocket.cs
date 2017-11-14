@@ -42,22 +42,23 @@ namespace ConnectionDAMForms
             socketRight = new TcpClient();
         }
 
-        public Boolean connectSocketLeft(String neighborIp,int portTalker)
+        public Boolean connectSocketLeft(String neighborIp)
         {
             Boolean done = false;
-
+            int portTalker;
             try
-            {
+            {                
                 if (socketLeft != null)
                 {
-                    disconnectSocketLeft();
+                    portTalker = ClPort.GeneratePorts(neighborIp);
+                    disconnectSocketLeft();                    
                     socketLeft.Connect(neighborIp, portTalker);
                     done = true;
                 }
                 else
                 {
                     socketLeft = new TcpClient();
-                    connectSocketLeft(neighborIp, portTalker);
+                    connectSocketLeft(neighborIp);
                 }
             }
             catch (Exception e)
@@ -67,14 +68,15 @@ namespace ConnectionDAMForms
             return done;
         }
 
-        public Boolean connectSocketRight(String neighborIp, int portTalker)
+        public Boolean connectSocketRight(String neighborIp)
         {
             Boolean done = false;
-
+            int portTalker;
             try
             {
                 if (socketRight != null)
                 {
+                    portTalker = ClPort.GeneratePorts(neighborIp);
                     disconnectSocketRight();
                     socketRight.Connect(neighborIp, portTalker);
                     done = true;
@@ -82,7 +84,7 @@ namespace ConnectionDAMForms
                 else
                 {
                     socketRight = new TcpClient();
-                    connectSocketRight(neighborIp, portTalker);
+                    connectSocketRight(neighborIp);
                 }
             }
             catch (Exception e)
@@ -92,12 +94,12 @@ namespace ConnectionDAMForms
             return done;
         }
 
-        public Boolean connectSocketListener(IPAddress yourIp, int portListener)
+        public Boolean connectSocketListener(String yourIpString)
         {
             Boolean done = false;
             try
             {
-                socketListener = new TcpListener(yourIp,portListener);
+                socketListener = new TcpListener(IPAddress.Parse(yourIpString), ClPort.GeneratePorts(yourIpString));
                 socketListener.Start();
                 listenerThread = new Thread(listen);
                 listenerThread.Start();

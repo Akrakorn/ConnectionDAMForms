@@ -8,38 +8,27 @@ namespace ConnectionDAMForms
 {
     public class ClPort
     {
-        /// <summary>
-        /// Ports contains listening port and talking port.
-        /// </summary>
-        public struct Ports
-        {
-            public int Listener;
-            public int Talker;
-        }
+        
 
         private static int initialPort = 5000;
 
         /// <summary>
         /// Function to generate port from the ip.
         /// </summary>
-        /// <param name="ports">ref Ports object.</param>
-        /// <param name="ipOrigin">Your Ip.("xxx.xxx.xxx.xxx")</param>
-        /// <param name="ipDestiny">Neighbor ip.("xxx.xxx.xxx.xxx")</param>
+        /// <param name="ipOrigin">ip</param>
         /// <returns>If there is no error returns true.</returns>
-        public static Boolean GeneratePorts( ref Ports ports, String ipOrigin, String ipDestiny)
+        public static int GeneratePorts(String ipOrigin)
         {
-            Boolean done = false;
-            if (ipOrigin != "" && ipDestiny != "")
+            int port = 0;
+            if (ipOrigin != "")
             {
-                ports.Listener = initialPort + ipOrigin.Trim('.')[3];
-                ports.Talker = initialPort + ipDestiny.Trim('.')[3];
-                done = true;
+                port = initialPort + ipOrigin.Trim('.')[3];
             }
             else
             {
                 ClErrors.reportError("Incorrect IP value.");
             }
-            return done;
+            return port;
         }
     }
 }
