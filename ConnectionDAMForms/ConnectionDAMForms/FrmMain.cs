@@ -66,6 +66,7 @@ namespace ConnectionDAMForms
         private void btEnviar_Click(object sender, EventArgs e)
         {
             socket.sendDataLeft(tbEnviar.Text);
+            socket.sendDataRight(tbEnviar.Text);
         }
     }
 }
