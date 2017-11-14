@@ -14,13 +14,15 @@ namespace ConnectionDAMForms
 {
     public partial class FrmMain : Form
     {
+        ClSocket socket = new ClSocket();
+
         public FrmMain()
         {
             InitializeComponent();
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
-        {            
+        {
             /*
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
@@ -31,19 +33,38 @@ namespace ConnectionDAMForms
                 }
             }
             */
-            
+            socket.msgReceived += Socket_msgReceived;
+        }
+
+        private void Socket_msgReceived(object sender, EventArgs e)
+        {
+            MessageBox.Show(socket.data);
         }
 
         private void btConectar_Click(object sender, EventArgs e)
         {
-
+            if (socket.connectSocketLeft(tbIzquierda.Text))
+            {
+                MessageBox.Show("Left PC has been connected succesfully.");
+                socket.sendDataLeft("test left: " + Environment.GetEnvironmentVariable("USERNAME"));
+            }
+            if (socket.connectSocketRight(tbDerecha.Text))
+            {
+                MessageBox.Show("Right PC has been connected succesfully.");
+                socket.sendDataLeft("test right: " + Environment.GetEnvironmentVariable("USERNAME"));
+            }
         }
 
         private void btEscuchar_Click(object sender, EventArgs e)
         {
-            ClSocket socket = new ClSocket();
+            
 
             socket.connectSocketListener(tbIPLocal.Text);
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            socket.disconnectSocketListener();
         }
     }
 }

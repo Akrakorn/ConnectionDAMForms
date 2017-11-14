@@ -24,12 +24,13 @@ namespace ConnectionDAMForms
 
         public delegate void delegat();
 
-        private String data{
-            get { return data; }
+        private string _data;
+        public String data{
+            get { return _data; }
             set
             {
                 if (value != "")
-                    data = value;
+                    _data = value;
             }
         }
 
@@ -125,11 +126,14 @@ namespace ConnectionDAMForms
                 socketRight.Close();
         }
 
-        private void disconnectSocketListener()
+        public void disconnectSocketListener()
         {
-            socketListener.Stop();
-            socketClientListener.Close();
-            listenerThread.Abort();
+            if(socketListener != null)
+            {
+                socketListener.Stop();
+                listenerThread.Abort();
+            }
+
         }
 
         public void sendDataLeft(String data)
@@ -213,15 +217,18 @@ namespace ConnectionDAMForms
 
             do
             {
-                socketClientListener = socketListener.AcceptTcpClient();
-                while (socketClientListener.Connected)
+                if(socketListener != null)
                 {
-                    if (socketClientListener.GetStream().Read(xBuffer, 0, xBuffer.Length) != 0)
+                    socketClientListener = socketListener.AcceptTcpClient();
+                    while (socketClientListener.Connected)
                     {
-                        data = Encoding.Default.GetString(xBuffer, 0, xBuffer.Length);
-                        msgReceived(this, EventArgs.Empty);
+                        if (socketClientListener.GetStream().Read(xBuffer, 0, xBuffer.Length) != 0)
+                        {
+                            data = Encoding.Default.GetString(xBuffer, 0, xBuffer.Length);
+                            msgReceived(this, EventArgs.Empty);
+                        }
                     }
-                }
+                }               
             } while (!socketClientListener.Connected);            
         }
 
