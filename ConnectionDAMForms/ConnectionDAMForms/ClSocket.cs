@@ -128,7 +128,7 @@ namespace ConnectionDAMForms
 
         public void disconnectSocketListener()
         {
-            if(socketListener != null)
+            if(socketListener != null) // asd
             {
                 socketListener.Stop();
                 listenerThread.Abort();
