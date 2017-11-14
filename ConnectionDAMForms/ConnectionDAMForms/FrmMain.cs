@@ -46,25 +46,26 @@ namespace ConnectionDAMForms
             if (socket.connectSocketLeft(tbIzquierda.Text))
             {
                 MessageBox.Show("Left PC has been connected succesfully.");
-                socket.sendDataLeft("test left: " + Environment.GetEnvironmentVariable("USERNAME"));
             }
             if (socket.connectSocketRight(tbDerecha.Text))
             {
                 MessageBox.Show("Right PC has been connected succesfully.");
-                socket.sendDataLeft("test right: " + Environment.GetEnvironmentVariable("USERNAME"));
             }
         }
 
         private void btEscuchar_Click(object sender, EventArgs e)
-        {
-            
-
+        {        
             socket.connectSocketListener(tbIPLocal.Text);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             socket.disconnectSocketListener();
+        }
+
+        private void btEnviar_Click(object sender, EventArgs e)
+        {
+            socket.sendDataLeft(tbEnviar.Text);
         }
     }
 }
