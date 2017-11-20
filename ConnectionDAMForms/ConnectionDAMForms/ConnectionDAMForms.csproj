@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="ClErrors.cs" />
     <Compile Include="ClPort.cs" />
+    <Compile Include="ClServer.cs" />
     <Compile Include="ClSocket.cs" />
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
