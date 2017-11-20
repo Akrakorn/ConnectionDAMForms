@@ -17,8 +17,11 @@ namespace ConnectionDAMForms
         private TcpClient socketRight;
 
         private TcpListener socketListener;
-        private Thread listenerThread; 
+        private Thread listenerThread;
+        private Thread listenerThread1;
+        private Thread listenerThread2;
         private TcpClient socketClientListener;
+        private TcpClient socketClientListener1;
 
         public Quobject.SocketIoClientDotNet.Client.Socket socketServer;
 
@@ -219,18 +222,53 @@ namespace ConnectionDAMForms
             {
                 if(socketListener != null)
                 {
-                    socketClientListener = socketListener.AcceptTcpClient();
-                    while (socketClientListener.Connected)
+                    if (!socketClientListener.Connected)
                     {
-                        if (socketClientListener.GetStream().Read(xBuffer, 0, xBuffer.Length) != 0)
-                        {                            
-                            data = Encoding.Default.GetString(xBuffer, 0, xBuffer.Length);
-                            msgReceived(this, EventArgs.Empty);
-                            xBuffer = new byte[MAX_BUFFER];
+                        socketClientListener = socketListener.AcceptTcpClient();
+                        listenerThread1 = new Thread(listenClient1);
+                        listenerThread1.Start();
+                    }
+                    else
+                    {
+                        if (!socketClientListener1.Connected && socketClientListener != socketListener.AcceptTcpClient())
+                        {
+                            socketClientListener1 = socketListener.AcceptTcpClient();
+                            listenerThread2 = new Thread(listenClient2);
+                            listenerThread2.Start();
                         }
                     }
+                    
+                    
                 }               
-            } while (!socketClientListener.Connected);            
+            } while (!socketClientListener.Connected || !socketClientListener1.Connected);            
+        }
+
+        private void listenClient1()
+        {
+            byte[] xBuffer = new byte[MAX_BUFFER];
+            while (socketClientListener.Connected)
+            {
+                if (socketClientListener.GetStream().Read(xBuffer, 0, xBuffer.Length) != 0)
+                {
+                    data = Encoding.Default.GetString(xBuffer, 0, xBuffer.Length);
+                    msgReceived(this, EventArgs.Empty);
+                    xBuffer = new byte[MAX_BUFFER];
+                }
+            }
+        }
+
+        private void listenClient2()
+        {
+            byte[] xBuffer = new byte[MAX_BUFFER];
+            while (socketClientListener1.Connected)
+            {
+                if (socketClientListener1.GetStream().Read(xBuffer, 0, xBuffer.Length) != 0)
+                {
+                    data = Encoding.Default.GetString(xBuffer, 0, xBuffer.Length);
+                    msgReceived(this, EventArgs.Empty);
+                    xBuffer = new byte[MAX_BUFFER];
+                }
+            }
         }
 
         /*
