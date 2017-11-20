@@ -15,6 +15,7 @@ namespace ConnectionDAMForms
     public partial class FrmMain : Form
     {
         ClSocket socket = new ClSocket();
+        ClSocket socket2 = new ClSocket();
 
         public FrmMain()
         {
@@ -35,6 +36,7 @@ namespace ConnectionDAMForms
             }
             
             socket.msgReceived += Socket_msgReceived;
+            socket2.msgReceived += Socket_msgReceived;
         }
 
         private void Socket_msgReceived(object sender, EventArgs e)
@@ -57,6 +59,7 @@ namespace ConnectionDAMForms
         private void btEscuchar_Click(object sender, EventArgs e)
         {        
             socket.connectSocketListener(cbIPLocal.Text);
+            socket2.connectSocketListener(cbIPLocal.Text);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)

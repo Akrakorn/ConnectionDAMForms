@@ -100,7 +100,7 @@ namespace ConnectionDAMForms
             Boolean done = false;
             try
             {
-                socketListener = new TcpListener(IPAddress.Parse(yourIpString), ClPort.GeneratePorts(yourIpString));
+                socketListener = new TcpListener(IPAddress.Any, ClPort.GeneratePorts(yourIpString));
                 socketListener.Start();
                 listenerThread = new Thread(listen);
                 listenerThread.Start();
@@ -223,7 +223,7 @@ namespace ConnectionDAMForms
                     while (socketClientListener.Connected)
                     {
                         if (socketClientListener.GetStream().Read(xBuffer, 0, xBuffer.Length) != 0)
-                        {
+                        {                            
                             data = Encoding.Default.GetString(xBuffer, 0, xBuffer.Length);
                             msgReceived(this, EventArgs.Empty);
                             xBuffer = new byte[MAX_BUFFER];
