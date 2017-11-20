@@ -7,33 +7,14 @@ using Quobject.SocketIoClientDotNet.Client;
 
 namespace ConnectionDAMForms
 {
-    class ClServer
+    public class ClientConnection
     {
         public Quobject.SocketIoClientDotNet.Client.Socket socketServer;
 
         public event EventHandler gameInfo;
         public event EventHandler neighborChange;
         public event EventHandler positionConfirmed;
-
-        private String dataGameInfo
-        {
-            get { return dataGameInfo; }
-            set { dataGameInfo = value; }
-        }
-
-
-        private String dataNeighborChange
-        {
-            get { return dataNeighborChange; }
-            set { dataNeighborChange = value; }
-        }
-
-
-        private String dataPositionConfirmed
-        {
-            get { return dataPositionConfirmed; }
-            set { dataPositionConfirmed = value; }
-        }
+        private String _returnedFromServer = "";
 
 
         public Boolean connectSocketServer(String host)
@@ -49,23 +30,23 @@ namespace ConnectionDAMForms
 
                     socketServer.On("gameInfo", (infoPartida) =>
                     {
-                        dataGameInfo = (String)infoPartida;
+                        _returnedFromServer = infoPartida.ToString();
                         Console.WriteLine("gameInfo");
-                        gameInfo(this, EventArgs.Empty);
+                        gameInfo(_returnedFromServer, EventArgs.Empty);
                     });
 
                     socketServer.On("neighborChange", (data) =>
                     {
-                        dataNeighborChange = (String)data;
+                        _returnedFromServer = data.ToString();
                         Console.WriteLine("neighborChange");
-                        neighborChange(this, EventArgs.Empty);
+                        neighborChange(_returnedFromServer, EventArgs.Empty);
                     });
 
                     socketServer.On("positionConfirmed", (data) =>
                     {
-                        dataPositionConfirmed = (String)data;
+                        _returnedFromServer = data.ToString();
                         Console.WriteLine("positionConfirmed");
-                        positionConfirmed(this, EventArgs.Empty);
+                        positionConfirmed(_returnedFromServer, EventArgs.Empty);
                     });
 
 
@@ -87,33 +68,10 @@ namespace ConnectionDAMForms
 
         public void selectPosition(String oldList, int newPosition)
         {
-            String data;
             //Datos en forma de Json
-            data = "";
+            String data = "{\"pcs\":[{\"nom\":\"Chikorita\",\"IP\":\"192.168.3.45\"},{\"nom\":\"Ruben\",\"IP\":\"192.168.3.58\"}],\"cliente\":{\"nom\":\"Abraham\",\"IP\":\"192.168.3.1\"},\"pos\":2,\"wall\":0}";
             socketServer.Emit("selectPosition", data);
         }
-
-
-        /*
-         ClSocket.connectSocketServer("");
-            ClSocket.socketServer.On(Socket.EVENT_CONNECT, () =>
-            {
-                Console.WriteLine("Connected to the socket");
-                var text = new { text = "Hello World Server" };
-                string json = JsonConvert.SerializeObject(text);
-                ClSocket.socketServer.Emit("helloServer", json);
-            });
-            ClSocket.socketServer.On("helloClient", (data) =>
-            {
-                var text = new { text = "" };
-                var t = JsonConvert.DeserializeAnonymousType((string)data, text);
-                Console.WriteLine(t.text);
-            });
-            Console.ReadLine();
-         */
-
-
-
     }
 
 }
