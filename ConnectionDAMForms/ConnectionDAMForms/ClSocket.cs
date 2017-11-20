@@ -222,7 +222,7 @@ namespace ConnectionDAMForms
             {
                 if(socketListener != null)
                 {
-                    if (!socketClientListener.Connected)
+                    if (socketClientListener == null || !socketClientListener.Connected)
                     {
                         socketClientListener = socketListener.AcceptTcpClient();
                         listenerThread1 = new Thread(listenClient1);
@@ -230,7 +230,7 @@ namespace ConnectionDAMForms
                     }
                     else
                     {
-                        if (!socketClientListener1.Connected && socketClientListener != socketListener.AcceptTcpClient())
+                        if (socketClientListener1 == null || !socketClientListener1.Connected && socketClientListener != socketListener.AcceptTcpClient())
                         {
                             socketClientListener1 = socketListener.AcceptTcpClient();
                             listenerThread2 = new Thread(listenClient2);
@@ -240,7 +240,7 @@ namespace ConnectionDAMForms
                     
                     
                 }               
-            } while (!socketClientListener.Connected || !socketClientListener1.Connected);            
+            } while (socketClientListener == null||!socketClientListener.Connected || socketClientListener1 == null|| !socketClientListener1.Connected);            
         }
 
         private void listenClient1()
