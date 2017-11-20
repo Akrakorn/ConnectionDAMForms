@@ -3,31 +3,28 @@ using System.Net;
 using System.Threading;
 using System.Net.Sockets;
 using System.Text;
-using System.Windows.Forms;
-using Quobject.SocketIoClientDotNet.Client;
 
 namespace ConnectionDAMForms
 {
     class ClSocket
     {
-        const int MAX_BUFFER = 4096;
 
-
-        private TcpClient socketLeft;           
+        #region "Local Sockets Variables"
+        private TcpClient socketLeft;
         private TcpClient socketRight;
-
         private TcpListener socketListener;
         private Thread listenerThread;
         private Thread listenerThread1;
         private Thread listenerThread2;
         private TcpClient socketClientListener;
         private TcpClient socketClientListener1;
-
-        public Quobject.SocketIoClientDotNet.Client.Socket socketServer;
-
-        public delegate void delegat();
-
+        public event EventHandler msgReceived;
+        const int MAX_BUFFER = 4096;
         private string _data;
+        #endregion
+
+        #region "Other Variables
+        public delegate void delegat();
         public String data{
             get { return _data; }
             set
@@ -36,9 +33,7 @@ namespace ConnectionDAMForms
                     _data = value;
             }
         }
-
-
-        public event EventHandler msgReceived;
+        #endregion
 
         public ClSocket()
         {
@@ -188,32 +183,6 @@ namespace ConnectionDAMForms
 
         }
 
-        public Boolean connectSocketServer(String host)
-        {
-            Boolean done = false;
-
-            if (host!="")
-            {
-                try
-                {
-                    socketServer = IO.Socket(host);
-                    done = true;
-                }
-                catch (Exception e)
-                {
-                    ClErrors.reportError(e.Message);
-                }
-            }
-            else ClErrors.reportError("Can't connect socket is empty!");
-            
-            return done;
-        }
-
-        public void disconnectSocketServer()
-        {
-            socketServer.Disconnect();
-        }
-
         private void listen()
         {
             byte[] xBuffer = new byte[MAX_BUFFER];
@@ -270,27 +239,5 @@ namespace ConnectionDAMForms
                 }
             }
         }
-
-        /*
-         ClSocket.connectSocketServer("");
-
-            ClSocket.socketServer.On(Socket.EVENT_CONNECT, () =>
-            {
-                Console.WriteLine("Connected to the socket");
-                var text = new { text = "Hello World Server" };
-                string json = JsonConvert.SerializeObject(text);
-                ClSocket.socketServer.Emit("helloServer", json);
-            });
-
-            ClSocket.socketServer.On("helloClient", (data) =>
-            {
-                var text = new { text = "" };
-                var t = JsonConvert.DeserializeAnonymousType((string)data, text);
-                Console.WriteLine(t.text);
-            });
-
-            Console.ReadLine();
-         */
-
     }
 }
