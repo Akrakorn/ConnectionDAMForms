@@ -100,7 +100,7 @@ namespace ConnectionDAMForms
             Boolean done = false;
             try
             {
-                socketListener = new TcpListener(IPAddress.Parse(yourIpString), ClPort.GeneratePorts(yourIpString));
+                socketListener = new TcpListener(IPAddress.Any, ClPort.GeneratePorts(yourIpString));
                 socketListener.Start();
                 listenerThread = new Thread(listen);
                 listenerThread.Start();
