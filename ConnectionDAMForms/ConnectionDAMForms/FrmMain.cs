@@ -4,25 +4,20 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GameHelpers.Helpers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace ConnectionDAMForms
 {
     public partial class FrmMain : Form
     {
-        private ClSocket socket = new ClSocket();
-        public ClNeighbor leftNeighbor, rightNeighbor;
-        public ClGameInfo gameInfo;
-        public event EventHandler gameInfoReceived, positionConfirmed, changeNeighbor;
-        private ServerConnection _serverConnection = new ServerConnection();
-        private const String ServerURL = "http://localhost:3000";
+
+        ClPaddle Paddle;
+        ClBall _ball;
+        Int32 _diameter;
+        List<ClBall> balls = new List<ClBall>();
 
         public FrmMain()
         {
@@ -31,141 +26,48 @@ namespace ConnectionDAMForms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            //connectSocketServer(ServerURL);
-
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    cbIPLocal.Items.Add(ip.ToString());
-                }
-            }
-
-
-
-            socket.msgReceived += Socket_msgReceived;
+            Paddle = new ClPaddle(this, Color.Red, 100, 30);
         }
 
-        private void Socket_msgReceived(object sender, EventArgs e)
+        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
-            MessageBox.Show(socket.data);
+            _ball = new ClBall(Color.Aqua, "Mi pelo", 100, 110, 50, this, 60, Paddle, 250, 250, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, "");
+            balls.Add(_ball);
         }
 
-        private void btConectar_Click(object sender, EventArgs e)
-        {
-            if (socket.connectSocketLeft(tbIzquierda.Text))
-            {
-                MessageBox.Show("Left PC has been connected succesfully.");
-            }
-            if (socket.connectSocketRight(tbDerecha.Text))
-            {
-                MessageBox.Show("Right PC has been connected succesfully.");
-            }
-        }
+        //    Private llBalls As New List(Of ClBall)
+        //Private _ball As ClBall
+        //Private Paddle As ClPaddle
+        //Private Neighbour_L As ClNeighbour
+        //Private Neighbour_R As ClNeighbour
+        //Private random As New Random
+        //Private _diameter As Integer
+        //Private _leftwall As Boolean
+        //Private _rightwall As Boolean
 
-        private void btEscuchar_Click(object sender, EventArgs e)
-        {
-            socket.connectSocketListener(cbIPLocal.Text);
-        }
+        //Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
 
-        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            socket.disconnectSocketListener();
-        }
+        //    If (e.KeyCode = Keys.Escape) Then
+        //        Me.Close()
+        //    ElseIf(e.Modifiers = Keys.Control AndAlso e.KeyCode = Keys.N) Then
+        //       _diameter = random.Next(25, 80)
+        //        _ball = New ClBall(Color.FromArgb(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256)), "Name", random.Next(1, 8), random.Next(1, 8), _diameter, Me,
+        //                           random.Next(30, 100), Paddle, random.Next(0, Me.Width - _diameter), random.Next(0, Me.Height - _diameter),
+        //                           Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, 0, Neighbour_L, Neighbour_R)
+        //        llBalls.Add(_ball)
+        //    End If
 
-        private void btEnviar_Click(object sender, EventArgs e)
-        {
-            socket.sendDataLeft(tbEnviar.Text);
-            socket.sendDataRight(tbEnviar.Text);
-        }
+        //End Sub
 
-        private Boolean connectSocketServer(String host)
-        {
-            Boolean done = false;
+        //Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        //    Paddle = New ClPaddle(Me, Color.Red, 100, 30)
+        //    Neighbour_L = New ClNeighbour("1.1.1.1", "Manolo", False) 'izquierda no es pared
+        //    Neighbour_R = New ClNeighbour("2.2.2.2", "Maria", True) 'derecha es pared
+        //    Cursor.Hide()
+        //End Sub
 
-            if (host != "")
-            {
-                try
-                {
-                    _serverConnection = new ServerConnection();
-                    _serverConnection.connectSocketServer(host);
-                    _serverConnection.gameInfo += ShowGameInfo;
-                    _serverConnection.positionConfirmed += PositionConfirmed;
-                    _serverConnection.neighborChange += NeighborChanged;
-                    done = true;
-                }
-                catch (Exception e)
-                {
-                    ClErrors.reportError(e.Message);
-                }
-            }
-            else ClErrors.reportError("Can't connect socket is empty!");
-
-            return done;
-        }
-
-        private void NeighborChanged(object sender, EventArgs e)
-        {
-            ClNeighbor newNeighbor;
-
-            try
-            {
-                // Interoperar con la clase ClSocket Local
-                newNeighbor = JsonConvert.DeserializeObject<ClNeighbor>(sender.ToString());
-
-                if (newNeighbor.pos == "D")
-                {
-                    socket.connectSocketRight(newNeighbor.cliente.Ip);
-                    rightNeighbor = newNeighbor;
-                    changeNeighbor(rightNeighbor, EventArgs.Empty);
-                }
-                else
-                {
-                    socket.connectSocketLeft(newNeighbor.cliente.Ip);
-                    leftNeighbor = newNeighbor;
-                }
-            }
-            catch (Exception excp)
-            {
-                Console.WriteLine(excp.Message);
-            }
-        }
-
-        private void PositionConfirmed(object sender, EventArgs e)
-        {
-            try
-            {
-                positionConfirmed("", EventArgs.Empty);
-            }
-            catch (Exception excp)
-            {
-                Console.WriteLine(excp.Message);
-            }         
-        }
-
-        private void ShowGameInfo(object sender, EventArgs e)
-        {
-            ClGameInfo tempGameInfo;
-
-            try
-            {
-                tempGameInfo = JsonConvert.DeserializeObject<ClGameInfo>(sender.ToString());
-
-                gameInfo = tempGameInfo;
-                gameInfoReceived(gameInfo, EventArgs.Empty);
-            }
-            catch (Exception excp)
-            {
-                Console.WriteLine(excp.Message);
-            }
-        }
-
-        public void disconnectSocketServer()
-        {
-            _serverConnection.disconnectSocketServer();
-        }
-
+        //Private Sub Form1_MouseMove(sender As Object, e As MouseEventArgs) Handles MyBase.MouseMove
+        //    Paddle.PosPala(Cursor.Position)
+        //End Sub
     }
 }
