@@ -31,7 +31,7 @@ namespace ConnectionDAMForms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            connectSocketServer(ServerURL);
+            //connectSocketServer(ServerURL);
 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
 
@@ -42,6 +42,8 @@ namespace ConnectionDAMForms
                     cbIPLocal.Items.Add(ip.ToString());
                 }
             }
+
+
 
             socket.msgReceived += Socket_msgReceived;
         }
