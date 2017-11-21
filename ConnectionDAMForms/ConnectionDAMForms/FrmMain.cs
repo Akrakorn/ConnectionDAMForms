@@ -39,10 +39,10 @@ namespace ConnectionDAMForms
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    cbIPLocal.Items.Add(ip.ToString()); 
+                    cbIPLocal.Items.Add(ip.ToString());
                 }
             }
-            
+
             socket.msgReceived += Socket_msgReceived;
         }
 
@@ -64,7 +64,7 @@ namespace ConnectionDAMForms
         }
 
         private void btEscuchar_Click(object sender, EventArgs e)
-        {        
+        {
             socket.connectSocketListener(cbIPLocal.Text);
         }
 
