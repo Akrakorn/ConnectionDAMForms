@@ -7,7 +7,7 @@ using Quobject.SocketIoClientDotNet.Client;
 
 namespace ConnectionDAMForms
 {
-    public class ClientConnection
+    public class ServerConnection
     {
         public Quobject.SocketIoClientDotNet.Client.Socket socketServer;
 
@@ -69,7 +69,7 @@ namespace ConnectionDAMForms
         public void selectPosition(String oldList, int newPosition)
         {
             //Datos en forma de Json
-            String data = "{\"pcs\":[{\"nom\":\"Chikorita\",\"IP\":\"192.168.3.45\"},{\"nom\":\"Ruben\",\"IP\":\"192.168.3.58\"}],\"cliente\":{\"nom\":\"Abraham\",\"IP\":\"192.168.3.1\"},\"pos\":2,\"wall\":0}";
+            String data = "{\"pcs\":[{\"Name\":\"Chikorita\",\"Ip\":\"192.168.3.45\"},{\"Name\":\"Ruben\",\"Ip\":\"192.168.3.58\"}],\"cliente\":{\"Name\":\"Abraham\",\"Ip\":\"192.168.3.1\"},\"pos\":2,\"wall\":0}";
             socketServer.Emit("selectPosition", data);
         }
     }

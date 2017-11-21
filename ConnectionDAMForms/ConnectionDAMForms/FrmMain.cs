@@ -9,15 +9,20 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GameHelpers.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectionDAMForms
 {
     public partial class FrmMain : Form
     {
-        ClSocket socket = new ClSocket();
-        ClSocket socket2 = new ClSocket();
-        ClientConnection _serverConnection = new ClientConnection();
-        const String ServerURL = "http://localhost:3000";
+        private ClSocket socket = new ClSocket();
+        public ClNeighbor leftNeighbor, rightNeighbor;
+        public ClGameInfo gameInfo;
+        public event EventHandler gameInfoReceived, positionConfirmed, changeNeighbor;
+        private ServerConnection _serverConnection = new ServerConnection();
+        private const String ServerURL = "http://localhost:3000";
 
         public FrmMain()
         {
@@ -39,7 +44,6 @@ namespace ConnectionDAMForms
             }
             
             socket.msgReceived += Socket_msgReceived;
-            socket2.msgReceived += Socket_msgReceived;
         }
 
         private void Socket_msgReceived(object sender, EventArgs e)
@@ -62,7 +66,6 @@ namespace ConnectionDAMForms
         private void btEscuchar_Click(object sender, EventArgs e)
         {        
             socket.connectSocketListener(cbIPLocal.Text);
-            socket2.connectSocketListener(cbIPLocal.Text);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -84,7 +87,7 @@ namespace ConnectionDAMForms
             {
                 try
                 {
-                    _serverConnection = new ClientConnection();
+                    _serverConnection = new ServerConnection();
                     _serverConnection.connectSocketServer(host);
                     _serverConnection.gameInfo += ShowGameInfo;
                     _serverConnection.positionConfirmed += PositionConfirmed;
@@ -103,26 +106,58 @@ namespace ConnectionDAMForms
 
         private void NeighborChanged(object sender, EventArgs e)
         {
-            String data = String.Format("Message received from Server: {0}", sender.ToString());
-            MessageBox.Show(data);
+            ClNeighbor newNeighbor;
 
-            // Interoperar con la clase ClSocket Local
+            try
+            {
+                // Interoperar con la clase ClSocket Local
+                newNeighbor = JsonConvert.DeserializeObject<ClNeighbor>(sender.ToString());
 
+                if (newNeighbor.pos == "D")
+                {
+                    socket.connectSocketRight(newNeighbor.cliente.Ip);
+                    rightNeighbor = newNeighbor;
+                    changeNeighbor(rightNeighbor, EventArgs.Empty);
+                }
+                else
+                {
+                    socket.connectSocketLeft(newNeighbor.cliente.Ip);
+                    leftNeighbor = newNeighbor;
+                }
+            }
+            catch (Exception excp)
+            {
+                Console.WriteLine(excp.Message);
+            }
         }
 
         private void PositionConfirmed(object sender, EventArgs e)
         {
-            String data = String.Format("Message received from Server: {0}", sender.ToString());
-            MessageBox.Show(data);
-
-            // Interoperar con la clase ClSocket Local
-
+            try
+            {
+                positionConfirmed("", EventArgs.Empty);
+            }
+            catch (Exception excp)
+            {
+                Console.WriteLine(excp.Message);
+            }         
         }
 
         private void ShowGameInfo(object sender, EventArgs e)
         {
-            String data = String.Format("Message received from Server: {0}", sender.ToString());
-            MessageBox.Show(data);
+            ClGameInfo tempGameInfo;
+
+            try
+            {
+                tempGameInfo = JsonConvert.DeserializeObject<ClGameInfo>(sender.ToString());
+
+                gameInfo = tempGameInfo;
+                gameInfoReceived(gameInfo, EventArgs.Empty);
+            }
+            catch (Exception excp)
+            {
+                Console.WriteLine(excp.Message);
+            }
         }
 
         public void disconnectSocketServer()
