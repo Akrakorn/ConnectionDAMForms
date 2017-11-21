@@ -16,6 +16,8 @@ namespace ConnectionDAMForms
     {
         ClSocket socket = new ClSocket();
         ClSocket socket2 = new ClSocket();
+        ClientConnection _serverConnection = new ClientConnection();
+        const String ServerURL = "http://localhost:3000";
 
         public FrmMain()
         {
@@ -24,6 +26,7 @@ namespace ConnectionDAMForms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            connectSocketServer(ServerURL);
 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
 
@@ -72,5 +75,60 @@ namespace ConnectionDAMForms
             socket.sendDataLeft(tbEnviar.Text);
             socket.sendDataRight(tbEnviar.Text);
         }
+
+        private Boolean connectSocketServer(String host)
+        {
+            Boolean done = false;
+
+            if (host != "")
+            {
+                try
+                {
+                    _serverConnection = new ClientConnection();
+                    _serverConnection.connectSocketServer(host);
+                    _serverConnection.gameInfo += ShowGameInfo;
+                    _serverConnection.positionConfirmed += PositionConfirmed;
+                    _serverConnection.neighborChange += NeighborChanged;
+                    done = true;
+                }
+                catch (Exception e)
+                {
+                    ClErrors.reportError(e.Message);
+                }
+            }
+            else ClErrors.reportError("Can't connect socket is empty!");
+
+            return done;
+        }
+
+        private void NeighborChanged(object sender, EventArgs e)
+        {
+            String data = String.Format("Message received from Server: {0}", sender.ToString());
+            MessageBox.Show(data);
+
+            // Interoperar con la clase ClSocket Local
+
+        }
+
+        private void PositionConfirmed(object sender, EventArgs e)
+        {
+            String data = String.Format("Message received from Server: {0}", sender.ToString());
+            MessageBox.Show(data);
+
+            // Interoperar con la clase ClSocket Local
+
+        }
+
+        private void ShowGameInfo(object sender, EventArgs e)
+        {
+            String data = String.Format("Message received from Server: {0}", sender.ToString());
+            MessageBox.Show(data);
+        }
+
+        public void disconnectSocketServer()
+        {
+            _serverConnection.disconnectSocketServer();
+        }
+
     }
 }
