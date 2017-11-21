@@ -1,0 +1,1 @@
+﻿20/11/2017 20:28:46: No se puede cargar el archivo o ensamblado 'System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' ni una de sus dependencias. La definición del manifiesto del ensamblado no coincide con la referencia al ensamblado. (Excepción de HRESULT: 0x80131040)
