@@ -43,8 +43,6 @@ namespace ConnectionDAMForms
                 }
             }
 
-
-
             socket.msgReceived += Socket_msgReceived;
         }
 

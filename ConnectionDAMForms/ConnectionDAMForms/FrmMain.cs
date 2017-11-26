@@ -18,6 +18,7 @@ namespace ConnectionDAMForms
         ClBall _ball;
         Int32 _diameter;
         List<ClBall> balls = new List<ClBall>();
+        ClSocket socket = new ClSocket();
 
         public FrmMain()
         {
@@ -31,9 +32,30 @@ namespace ConnectionDAMForms
 
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
-            _ball = new ClBall(Color.Aqua, "Mi pelo", 100, 110, 50, this, 60, Paddle, 250, 250, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, "");
+            _ball = new ClBall(Color.Aqua, "Mi pelo", 100, 110, 50, this, 100, Paddle, 250, 250, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, "");
+            _ball.wallhit += pelotaGolpeadaPorPared;
             balls.Add(_ball);
         }
+
+        private void FrmMain_MouseMove(object sender, MouseEventArgs e)
+        {
+            Paddle.PosPala(Cursor.Position);
+        }
+
+        private void pelotaGolpeadaPorPared(object sender, EventArgs e)
+        {
+            ClBall ballHitted = (ClBall)sender;
+            Ball enviarPelota = new Ball
+            {
+                color = ballHitted.Color.ToArgb(),
+                creator = ballHitted.Owner,
+                diameter = ballHitted.Diametre,
+                movementX = ballHitted.MovX,
+                movementY = ballHitted.MovY,
+                positionY = ballHitted.PosY
+            };
+        }
+
 
         //    Private llBalls As New List(Of ClBall)
         //Private _ball As ClBall

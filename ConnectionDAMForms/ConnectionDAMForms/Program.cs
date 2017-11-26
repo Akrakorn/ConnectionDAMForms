@@ -16,7 +16,7 @@ namespace ConnectionDAMForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Helper());
+            Application.Run(new FrmMain());
         }
     }
 }
